@@ -13,9 +13,7 @@ screenshot.addEventListener('click', (event) => {
   const thumbSize = determineScreenShotSize()
   let options = { types: ['screen'], thumbnailSize: thumbSize }
 
-  desktopCapturer.getSources(options, (error, sources) => {
-    if (error) return console.log(error)
-
+  desktopCapturer.getSources(options).then(sources => {
     sources.forEach((source) => {
       if (source.name === 'Entire Screen' || source.name === 'Screen 1') {
         const screenshotPath = path.join(os.tmpdir(), 'screenshot.png')
@@ -29,6 +27,8 @@ screenshot.addEventListener('click', (event) => {
         })
       }
     })
+  }).catch(error=>{
+    if (error) return console.log(error)
   })
 })
 
